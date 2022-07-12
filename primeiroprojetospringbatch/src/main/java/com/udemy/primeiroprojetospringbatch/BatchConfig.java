@@ -31,12 +31,12 @@ public class BatchConfig {
 	}
 
 	public Step ImprimeOlaStep() {
-		return stepBuilderFactory.get("ImprimeOlaStep").tasklet(mprimeOlaTasklet(null)).build();
+		return stepBuilderFactory.get("ImprimeOlaStep").tasklet(ImprimeOlaTasklet(null)).build();
 	}
 
 	@Bean
 	@StepScope
-	public Tasklet mprimeOlaTasklet(@Value("#{jobParameters['nome']}") String string) {
+	public Tasklet ImprimeOlaTasklet(@Value("#{jobParameters['nome']}") String string) {
 		return new Tasklet() {
 
 			@Override
