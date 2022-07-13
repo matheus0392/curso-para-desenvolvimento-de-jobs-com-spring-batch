@@ -31,8 +31,12 @@ public class ParImparBachConfig {
 	}
 	
 	public Step ImprimeParImparStep() {
-		return stepBuilderFactory.get("ImprimeParImparStep").<Integer, String>chunk(1).reader(contaAteDezReader())
-				.processor(parImparProcessor()).writer(imprimeWriter()).build();
+		return stepBuilderFactory
+				.get("ImprimeParImparStep")
+				.<Integer, String>chunk(10)
+				.reader(contaAteDezReader())
+				.processor(parImparProcessor())
+				.writer(imprimeWriter()).build();
 	}
 
 	private ItemWriter imprimeWriter() {
@@ -49,6 +53,5 @@ public class ParImparBachConfig {
 		List<Integer> numeroDeUmADez = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		return new IteratorItemReader<Integer>(numeroDeUmADez);
 	}
-
 
 }
