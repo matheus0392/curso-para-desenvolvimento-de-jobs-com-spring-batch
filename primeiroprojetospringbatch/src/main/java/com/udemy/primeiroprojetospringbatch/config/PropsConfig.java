@@ -1,8 +1,5 @@
 package com.udemy.primeiroprojetospringbatch.config;
 
-import java.io.File;
-import java.nio.file.Paths;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
