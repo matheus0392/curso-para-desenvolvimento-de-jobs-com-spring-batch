@@ -1,10 +1,12 @@
 package com.udemy.leitoresspringbatch.step;
 
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.core.io.Resource;
@@ -14,11 +16,15 @@ import com.udemy.leitoresspringbatch.model.Lancamento;
 
 public class DemonstrativoDelegateItemReader implements ResourceAwareItemReaderItemStream<Demonstrativo> {
 	Object objAtual;
-	private FlatFileItemReader flatFileItemReader;
+	private ItemReader itemReader;
 	private Demonstrativo demonstrativo;
 
 	public DemonstrativoDelegateItemReader(FlatFileItemReader flatFileItemReader) {
-		this.flatFileItemReader = flatFileItemReader;
+		this.itemReader = flatFileItemReader;
+	}
+
+	public DemonstrativoDelegateItemReader(JdbcCursorItemReader dataSourceItemReader) {
+		this.itemReader = dataSourceItemReader;
 	}
 
 	@Override
@@ -26,7 +32,7 @@ public class DemonstrativoDelegateItemReader implements ResourceAwareItemReaderI
 			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
 		if (objAtual == null) {
-			objAtual = this.flatFileItemReader.read();
+			objAtual = this.itemReader.read();
 		}
 
 		if (!(objAtual instanceof Lancamento)) {
@@ -36,7 +42,8 @@ public class DemonstrativoDelegateItemReader implements ResourceAwareItemReaderI
 		demonstrativo = new Demonstrativo((Lancamento) objAtual);
 
 		Object peek = peek();
-		while (peek instanceof Lancamento && ((Lancamento) peek).getCodigo() == demonstrativo.getCodigo()) {
+		while (peek instanceof Lancamento
+				&& ((Lancamento) peek).getCodigoNaturezaDespesa() == demonstrativo.getCodigoNaturezaDespesa()) {
 			demonstrativo.addLancamento((Lancamento) objAtual);
 			peek = peek();
 		}
@@ -45,28 +52,48 @@ public class DemonstrativoDelegateItemReader implements ResourceAwareItemReaderI
 	}
 
 	private Object peek() throws UnexpectedInputException, ParseException, Exception {
-		objAtual = this.flatFileItemReader.read();
+		objAtual = this.itemReader.read();
 		return objAtual;
 	}
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
-		flatFileItemReader.open(executionContext);
+		if (itemReader instanceof FlatFileItemReader) {
+			((FlatFileItemReader) itemReader).open(executionContext);
+		}
+
+		if (itemReader instanceof JdbcCursorItemReader) {
+			((JdbcCursorItemReader) itemReader).open(executionContext);
+		}
 	}
 
 	@Override
 	public void update(ExecutionContext executionContext) throws ItemStreamException {
-		flatFileItemReader.update(executionContext);
+		if (itemReader instanceof FlatFileItemReader) {
+			((FlatFileItemReader) itemReader).update(executionContext);
+		}
+
+		if (itemReader instanceof JdbcCursorItemReader) {
+			((JdbcCursorItemReader) itemReader).update(executionContext);
+		}
 	}
 
 	@Override
 	public void close() throws ItemStreamException {
-		flatFileItemReader.close();
+		if (itemReader instanceof FlatFileItemReader) {
+			((FlatFileItemReader) itemReader).close();
+		}
+
+		if (itemReader instanceof JdbcCursorItemReader) {
+			((JdbcCursorItemReader) itemReader).close();
+		}
 	}
 
 	@Override
 	public void setResource(Resource resource) {
-		flatFileItemReader.setResource(resource);
+		if (itemReader instanceof FlatFileItemReader) {
+			((FlatFileItemReader) itemReader).setResource(resource);
+		}
 	}
 
 }

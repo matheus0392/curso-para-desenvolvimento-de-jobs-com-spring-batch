@@ -2,54 +2,54 @@ package com.udemy.leitoresspringbatch.model;
 
 public class Lancamento {
 
-	int codigo;
-	String natureza;
-	String nome;
-	String data;
-	int valor;
+	int codigoNaturezaDespesa;
+	String descricaoNaturezaDespesa;
+	String descricaoLancamento;
+	String dataLancamento;
+	int valorLancamento;
 
-	public int getCodigo() {
-		return codigo;
+	public int getCodigoNaturezaDespesa() {
+		return codigoNaturezaDespesa;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCodigoNaturezaDespesa(int codigo) {
+		this.codigoNaturezaDespesa = codigo;
 	}
 
-	public String getNatureza() {
-		return natureza;
+	public String getDescricaoNaturezaDespesa() {
+		return descricaoNaturezaDespesa;
 	}
 
-	public void setNatureza(String natureza) {
-		this.natureza = natureza;
+	public void setDescricaoNaturezaDespesa(String natureza) {
+		this.descricaoNaturezaDespesa = natureza;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getDescricaoLancamento() {
+		return descricaoLancamento;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDescricaoLancamento(String nome) {
+		this.descricaoLancamento = nome;
 	}
 
-	public String getData() {
-		return data;
+	public String getDataLancamento() {
+		return dataLancamento;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setDataLancamento(String data) {
+		this.dataLancamento = data;
 	}
 
-	public int getValor() {
-		return valor;
+	public int getValorLancamento() {
+		return valorLancamento;
 	}
 
-	public void setValor(int valor) {
-		this.valor = valor;
+	public void setValorLancamento(int valor) {
+		this.valorLancamento = valor;
 	}
 
 	@Override
 	public String toString() {
-		return "\t[" + data + "] " + nome + " - R$ " + valor+"\n";
+		return "\t[" + dataLancamento + "] " + descricaoLancamento + " - R$ " + valorLancamento + "\n";
 	}
 }

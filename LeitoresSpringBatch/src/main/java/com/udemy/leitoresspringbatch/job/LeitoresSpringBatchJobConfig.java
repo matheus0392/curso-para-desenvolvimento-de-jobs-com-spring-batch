@@ -14,10 +14,18 @@ public class LeitoresSpringBatchJobConfig {
 	@Autowired
 	JobBuilderFactory jobBuilderFactory;
 
-	@Bean
+	//@Bean
 	public Job DemonstrativoOrcamentarioJob(Step DemonstrativoOrcamentarioStep) {
 		return jobBuilderFactory.get("DemonstrativoOrcamentarioJob ")
 				.start(DemonstrativoOrcamentarioStep)
+				.incrementer(new RunIdIncrementer())
+				.build();
+	}
+
+	@Bean
+	public Job DemonstrativoOrcamentarioJob2(Step DemonstrativoOrcamentarioStep2) {
+		return jobBuilderFactory.get("DemonstrativoOrcamentarioJob2 ")
+				.start(DemonstrativoOrcamentarioStep2)
 				.incrementer(new RunIdIncrementer())
 				.build();
 	}
